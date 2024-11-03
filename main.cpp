@@ -1,4 +1,4 @@
-// COMSC-210 | lab 25 | Kent Kawashima
+// COMSC-210 | lab 26 | Kent Kawashima
 // IDE used: Visual Studio Code
 #include <iostream>
 #include <fstream>
@@ -8,22 +8,23 @@
 #include <set>       //for set
 #include <algorithm> //for sort
 #include <iomanip>   //for formatting
+#include <map>
 using namespace std;
 using namespace std::chrono;
 
 // function prototypes
-auto vRead(vector<string> &);
-auto vSort(vector<string> &);
-auto vInsert(vector<string> &);
-auto vDelete(vector<string> &);
-auto lRead(list<string> &);
-auto lSort(list<string> &);
-auto lInsert(list<string> &);
-auto lDelete(list<string> &);
-auto sRead(set<string> &);
-auto sSort(set<string> &);
-auto sInsert(set<string> &);
-auto sDelete(set<string> &);
+void vRead(vector<string> &);
+void vSort(vector<string> &);
+void vInsert(vector<string> &);
+void vDelete(vector<string> &);
+void lRead(list<string> &);
+void lSort(list<string> &);
+void lInsert(list<string> &);
+void lDelete(list<string> &);
+void sRead(set<string> &);
+void sSort(set<string> &);
+void sInsert(set<string> &);
+void sDelete(set<string> &);
 const void printRecords(vector<string>, list<string>, set<string>);
 
 /************************************************
@@ -35,17 +36,34 @@ int main()
     vector<string> myVec;
     list<string> myList;
     set<string> mySet;
-    
-    //the printRecords function calls and formats all other functions. 
+
+    // the printRecords function calls and formats all other functions.
     printRecords(myVec, myList, mySet);
 
+    // create map to store values
+    map<string, int> runTimes = {{"vRead", 0},
+                                 {"lRead", 0},
+                                 {"sRead", 0},
+                                 {"vSort", 0},
+                                 {"lSort", 0},
+                                 {"sSort", 0},
+                                 {"vInsert", 0},
+                                 {"lInsert", 0},
+                                 {"sInsert", 0},
+                                 {"vDelete", 0},
+                                 {"lDelete", 0},
+                                 {"sDelete", 0}};
+
     return 0;
+
+    //test
+    runTimes["vRead"].second += (1); 
 }
 
-/************************************************
+/************************************************ 
  * Functions: vector
  ************************************************/
-auto vRead(vector<string> &myVec)
+void vRead(vector<string> &myVec)
 {
     string buf;
     auto start = high_resolution_clock::now();
@@ -59,7 +77,7 @@ auto vRead(vector<string> &myVec)
     return (duration.count());
 }
 
-auto vSort(vector<string> &myVec)
+void vSort(vector<string> &myVec)
 {
     auto start = high_resolution_clock::now();
 
@@ -70,7 +88,7 @@ auto vSort(vector<string> &myVec)
     return (duration.count());
 }
 
-auto vInsert(vector<string> &myVec)
+void vInsert(vector<string> &myVec)
 {
     auto start = high_resolution_clock::now();
 
@@ -81,7 +99,7 @@ auto vInsert(vector<string> &myVec)
     return (duration.count());
 }
 
-auto vDelete(vector<string> &myVec)
+void vDelete(vector<string> &myVec)
 {
     auto start = high_resolution_clock::now();
 
@@ -95,7 +113,7 @@ auto vDelete(vector<string> &myVec)
 /************************************************
  * Functions: list
  ************************************************/
-auto lRead(list<string> &myList)
+void lRead(list<string> &myList)
 {
     auto start = high_resolution_clock::now();
 
@@ -110,7 +128,7 @@ auto lRead(list<string> &myList)
     return (duration.count());
 }
 
-auto lSort(list<string> &myList)
+void lSort(list<string> &myList)
 {
     auto start = high_resolution_clock::now();
 
@@ -121,7 +139,7 @@ auto lSort(list<string> &myList)
     return (duration.count());
 }
 
-auto lInsert(list<string> &myList)
+void lInsert(list<string> &myList)
 {
     auto start = high_resolution_clock::now();
 
@@ -136,7 +154,7 @@ auto lInsert(list<string> &myList)
     return (duration.count());
 }
 
-auto lDelete(list<string> &myList)
+void lDelete(list<string> &myList)
 {
     auto start = high_resolution_clock::now();
 
@@ -154,7 +172,7 @@ auto lDelete(list<string> &myList)
 /************************************************
  * Functions: set
  ************************************************/
-auto sRead(set<string> &mySet)
+void sRead(set<string> &mySet)
 {
     auto start = high_resolution_clock::now();
 
@@ -170,12 +188,12 @@ auto sRead(set<string> &mySet)
     return (duration.count());
 }
 
-auto sSort(set<string> &mySet) // already sorted, return -1
+void sSort(set<string> &mySet) // already sorted, return -1
 {
     return (-1);
 }
 
-auto sInsert(set<string> &mySet)
+void sInsert(set<string> &mySet)
 {
     auto start = high_resolution_clock::now();
 
@@ -186,7 +204,7 @@ auto sInsert(set<string> &mySet)
     return (duration.count());
 }
 
-auto sDelete(set<string> &mySet)
+void sDelete(set<string> &mySet)
 {
     auto start = high_resolution_clock::now();
 
@@ -207,11 +225,11 @@ auto sDelete(set<string> &mySet)
  ************************************************/
 const void printRecords(vector<string> myVec, list<string> myList, set<string> mySet)
 {
-    const int width = 10; //spacing on output
+    const int width = 10; // spacing on output
     cout << setw(width) << "Operation" << right << setw(width) << "Vector" << right << setw(width) << "List" << right << setw(width) << "Set\n";
-    cout << right << setw(width) << "Read" << right << setw(width) << vRead(myVec) << right << setw(width) << lRead(myList) << right << setw(width) << sRead(mySet) <<"\n";
-    cout << right << setw(width) << "Sort" << right << setw(width) << vSort(myVec) << right << setw(width) << lSort(myList) << right << setw(width) << sSort(mySet) <<"\n";
-    cout << right << setw(width) << "Insert" << right << setw(width) << vInsert(myVec) << right << setw(width) << lInsert(myList) << right << setw(width) << sInsert(mySet) <<"\n";
-    cout << right << setw(width) << "Delete" << right << setw(width) << vDelete(myVec) << right << setw(width) << lDelete(myList) << right << setw(width) << sDelete(mySet) <<"\n";
+    cout << right << setw(width) << "Read" << right << setw(width) << vRead(myVec) << right << setw(width) << lRead(myList) << right << setw(width) << sRead(mySet) << "\n";
+    cout << right << setw(width) << "Sort" << right << setw(width) << vSort(myVec) << right << setw(width) << lSort(myList) << right << setw(width) << sSort(mySet) << "\n";
+    cout << right << setw(width) << "Insert" << right << setw(width) << vInsert(myVec) << right << setw(width) << lInsert(myList) << right << setw(width) << sInsert(mySet) << "\n";
+    cout << right << setw(width) << "Delete" << right << setw(width) << vDelete(myVec) << right << setw(width) << lDelete(myList) << right << setw(width) << sDelete(mySet) << "\n";
 }
-//because I'm running my code on a relatively expensive desktop PC, the ms runtime for me is very low. 
+// because I'm running my code on a relatively expensive desktop PC, the ms runtime for me is very low.
