@@ -12,6 +12,8 @@
 using namespace std;
 using namespace std::chrono;
 
+const int ITERATIONS = 15;
+
 // function prototypes
 void vRead(vector<string> &, map<string, int>&);
 void vSort(vector<string> &, map<string, int>&);
@@ -42,7 +44,7 @@ int main()
     map<string, int> runTimes = {{"vRead", 0}, {"lRead", 0}, {"sRead", 0}, {"vSort", 0}, {"lSort", 0}, {"sSort", -1}, {"vInsert", 0}, {"lInsert", 0}, {"sInsert", 0}, {"vDelete", 0}, {"lDelete", 0}, {"sDelete", 0}};
 
     // run tests 15 times
-    runTests(15, myVec, myList, mySet);
+    runTests(15, myVec, myList, mySet, runTimes);
     printRecords(runTimes);
 
     return 0;
@@ -233,6 +235,9 @@ void runTests(int num, vector<string> &myVec, list<string> &myList, set<string> 
         sInsert(mySet, runTimes);
         sDelete(mySet, runTimes);
     }
+    //average out values by dividing by number of iterations
+    for (auto &pair : runTimes)
+        pair.second /= num; 
 }
 
 /************************************************
@@ -240,7 +245,11 @@ void runTests(int num, vector<string> &myVec, list<string> &myList, set<string> 
  ************************************************/
 const void printRecords(map<string, int> runTimes) // reference for both
 {
-    // figure out formatting later
-    for (const auto &pair : runTimes)
-        cout << pair.first << " took " << pair.second << " microseconds." << endl;
+    // outputs data stored in the map according to its key, also helps make the print function more readable    
+    const int width = 10; //spacing on output
+    cout << setw(width) << "Operation" << right << setw(width) << "Vector" << right << setw(width) << "List" << right << setw(width) << "Set\n"; //row1
+    cout << right << setw(width) << "Read" << right << setw(width) << runTimes["vRead"] << right << setw(width) << runTimes["lRead"] << right << setw(width) << runTimes["sRead"] <<"\n";
+    cout << right << setw(width) << "Sort" << right << setw(width) << runTimes["vSort"] << right << setw(width) << runTimes["lSort"] << right << setw(width) << runTimes["sSort"] <<"\n";
+    cout << right << setw(width) << "Insert" << right << setw(width) << runTimes["vInsert"] << right << setw(width) << runTimes["lInsert"] << right << setw(width) << runTimes["sInsert"] <<"\n";
+    cout << right << setw(width) << "Delete" << right << setw(width) << runTimes["vDelete"] << right << setw(width) << runTimes["lDelete"] << right << setw(width) << runTimes["sDelete"] <<"\n";
 }
