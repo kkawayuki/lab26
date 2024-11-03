@@ -41,29 +41,15 @@ int main()
     printRecords(myVec, myList, mySet);
 
     // create map to store values
-    map<string, int> runTimes = {{"vRead", 0},
-                                 {"lRead", 0},
-                                 {"sRead", 0},
-                                 {"vSort", 0},
-                                 {"lSort", 0},
-                                 {"sSort", 0},
-                                 {"vInsert", 0},
-                                 {"lInsert", 0},
-                                 {"sInsert", 0},
-                                 {"vDelete", 0},
-                                 {"lDelete", 0},
-                                 {"sDelete", 0}};
+    map<string, int> runTimes = {{"vRead", 0}, {"lRead", 0}, {"sRead", 0}, {"vSort", 0}, {"lSort", 0}, {"sSort", -1}, {"vInsert", 0}, {"lInsert", 0}, {"sInsert", 0}, {"vDelete", 0}, {"lDelete", 0}, {"sDelete", 0}};
 
     return 0;
-
-    //test
-    runTimes["vRead"].second += (1); 
 }
 
-/************************************************ 
+/************************************************
  * Functions: vector
  ************************************************/
-void vRead(vector<string> &myVec)
+void vRead(vector<string> &myVec, map<string, int> &runTimes)
 {
     string buf;
     auto start = high_resolution_clock::now();
@@ -74,10 +60,10 @@ void vRead(vector<string> &myVec)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["vRead"] += duration.count();
 }
 
-void vSort(vector<string> &myVec)
+void vSort(vector<string> &myVec, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -85,10 +71,10 @@ void vSort(vector<string> &myVec)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["vSort"] += duration.count();
 }
 
-void vInsert(vector<string> &myVec)
+void vInsert(vector<string> &myVec, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -96,10 +82,10 @@ void vInsert(vector<string> &myVec)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["vInsert"] += duration.count();
 }
 
-void vDelete(vector<string> &myVec)
+void vDelete(vector<string> &myVec, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -107,13 +93,13 @@ void vDelete(vector<string> &myVec)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["vDelete"] += duration.count();
 }
 
 /************************************************
  * Functions: list
  ************************************************/
-void lRead(list<string> &myList)
+void lRead(list<string> &myList, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -125,10 +111,10 @@ void lRead(list<string> &myList)
     }
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["lRead"] += duration.count();
 }
 
-void lSort(list<string> &myList)
+void lSort(list<string> &myList, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -136,10 +122,10 @@ void lSort(list<string> &myList)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["lSort"] += duration.count();
 }
 
-void lInsert(list<string> &myList)
+void lInsert(list<string> &myList, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -151,10 +137,10 @@ void lInsert(list<string> &myList)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["lInsert"] += duration.count();
 }
 
-void lDelete(list<string> &myList)
+void lDelete(list<string> &myList, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -166,13 +152,13 @@ void lDelete(list<string> &myList)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["lDelete"] += duration.count();
 }
 
 /************************************************
  * Functions: set
  ************************************************/
-void sRead(set<string> &mySet)
+void sRead(set<string> &mySet, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -185,15 +171,15 @@ void sRead(set<string> &mySet)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["sRead"] += duration.count();
 }
 
-void sSort(set<string> &mySet) // already sorted, return -1
+void sSort(set<string> &mySet, map<string, int> &runTimes)
 {
-    return (-1);
+    // already sorted, value is set to -1
 }
 
-void sInsert(set<string> &mySet)
+void sInsert(set<string> &mySet, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -201,10 +187,10 @@ void sInsert(set<string> &mySet)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["sInsert"] += duration.count();
 }
 
-void sDelete(set<string> &mySet)
+void sDelete(set<string> &mySet, map<string, int> &runTimes)
 {
     auto start = high_resolution_clock::now();
 
@@ -217,19 +203,15 @@ void sDelete(set<string> &mySet)
 
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
-    return (duration.count());
+    runTimes["sDelete"] += duration.count();
 }
 
 /************************************************
  * Function: printRecords
  ************************************************/
-const void printRecords(vector<string> myVec, list<string> myList, set<string> mySet)
+const void printRecords(map<string, int> runTimes) // reference for both
 {
-    const int width = 10; // spacing on output
-    cout << setw(width) << "Operation" << right << setw(width) << "Vector" << right << setw(width) << "List" << right << setw(width) << "Set\n";
-    cout << right << setw(width) << "Read" << right << setw(width) << vRead(myVec) << right << setw(width) << lRead(myList) << right << setw(width) << sRead(mySet) << "\n";
-    cout << right << setw(width) << "Sort" << right << setw(width) << vSort(myVec) << right << setw(width) << lSort(myList) << right << setw(width) << sSort(mySet) << "\n";
-    cout << right << setw(width) << "Insert" << right << setw(width) << vInsert(myVec) << right << setw(width) << lInsert(myList) << right << setw(width) << sInsert(mySet) << "\n";
-    cout << right << setw(width) << "Delete" << right << setw(width) << vDelete(myVec) << right << setw(width) << lDelete(myList) << right << setw(width) << sDelete(mySet) << "\n";
+    // figure out formatting later
+    for (const auto &pair : runTimes)
+        cout << pair.first << " took " << pair.second << " microseconds." << endl;
 }
-// because I'm running my code on a relatively expensive desktop PC, the ms runtime for me is very low.
