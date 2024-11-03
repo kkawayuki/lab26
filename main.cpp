@@ -13,19 +13,20 @@ using namespace std;
 using namespace std::chrono;
 
 // function prototypes
-void vRead(vector<string> &);
-void vSort(vector<string> &);
-void vInsert(vector<string> &);
-void vDelete(vector<string> &);
-void lRead(list<string> &);
-void lSort(list<string> &);
-void lInsert(list<string> &);
-void lDelete(list<string> &);
-void sRead(set<string> &);
-void sSort(set<string> &);
-void sInsert(set<string> &);
-void sDelete(set<string> &);
-const void printRecords(vector<string>, list<string>, set<string>);
+void vRead(vector<string> &, map<string, int>&);
+void vSort(vector<string> &, map<string, int>&);
+void vInsert(vector<string> &, map<string, int>&);
+void vDelete(vector<string> &, map<string, int>&);
+void lRead(list<string> &, map<string, int>&);
+void lSort(list<string> &, map<string, int>&);
+void lInsert(list<string> &, map<string, int>&);
+void lDelete(list<string> &, map<string, int>&);
+void sRead(set<string> &, map<string, int>&);
+void sSort(set<string> &, map<string, int>&);
+void sInsert(set<string> &, map<string, int>&);
+void sDelete(set<string> &, map<string, int>&);
+void runTests(int, vector<string> &, list<string> &, set<string> &, map<string, int> &);
+const void printRecords(map<string, int>);
 
 /************************************************
  * Function: Main
@@ -37,11 +38,12 @@ int main()
     list<string> myList;
     set<string> mySet;
 
-    // the printRecords function calls and formats all other functions.
-    printRecords(myVec, myList, mySet);
-
     // create map to store values
     map<string, int> runTimes = {{"vRead", 0}, {"lRead", 0}, {"sRead", 0}, {"vSort", 0}, {"lSort", 0}, {"sSort", -1}, {"vInsert", 0}, {"lInsert", 0}, {"sInsert", 0}, {"vDelete", 0}, {"lDelete", 0}, {"sDelete", 0}};
+
+    // run tests 15 times
+    runTests(15, myVec, myList, mySet);
+    printRecords(runTimes);
 
     return 0;
 }
@@ -204,6 +206,33 @@ void sDelete(set<string> &mySet, map<string, int> &runTimes)
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
     runTimes["sDelete"] += duration.count();
+}
+
+/************************************************
+ * Function:
+ ************************************************/
+void runTests(int num, vector<string> &myVec, list<string> &myList, set<string> &mySet, map<string, int> &runTimes)
+{
+    for (int i = 0; i < num; i++)
+    {
+        // Run vector tests
+        vRead(myVec, runTimes);
+        vSort(myVec, runTimes);
+        vInsert(myVec, runTimes);
+        vDelete(myVec, runTimes);
+
+        // Run list tests
+        lRead(myList, runTimes);
+        lSort(myList, runTimes);
+        lInsert(myList, runTimes);
+        lDelete(myList, runTimes);
+
+        // Run set tests
+        sRead(mySet, runTimes);
+        sSort(mySet, runTimes);
+        sInsert(mySet, runTimes);
+        sDelete(mySet, runTimes);
+    }
 }
 
 /************************************************
